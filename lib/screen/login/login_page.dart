@@ -2,6 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:din_din_com/models/user/user.dart';
+import 'package:din_din_com/models/user/user_services.dart';
+import 'package:din_din_com/screen/login/sign_up_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -106,7 +110,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 GestureDetector(
-                  // onTap: ,
+                  onTap: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ),
+                        );
+                  },
                   child: Text(
                     ' Registrar agora',
                     style: TextStyle(

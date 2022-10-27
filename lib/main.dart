@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'screen/login_page.dart';
+import 'screen/login/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
