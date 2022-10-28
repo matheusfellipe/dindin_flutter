@@ -6,7 +6,6 @@ import 'package:din_din_com/models/user/user.dart';
 import 'package:din_din_com/models/user/user_services.dart';
 import 'package:din_din_com/screen/login/sign_up_page.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -15,16 +14,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final UserLocal _userLocal = UserLocal();
+
+  final UserServices _userServices = UserServices();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-           
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
               'Seja bem vindo ao Din Din Com',
               style: GoogleFonts.bebasNeue(
@@ -47,11 +48,19 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
+                  child: TextFormField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Email',
                     ),
+                    enabled: true,
+                    validator: (email) {
+                      if (email!.isEmpty) {
+                        return 'Campo deve ser preenchido!!!';
+                      }
+                      return null;
+                    },
+                    onSaved: (email) => _userLocal.email = email,
                   ),
                 ),
               ),
@@ -67,12 +76,20 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: TextField(
+                  child: TextFormField(
                     obscureText: true,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Senha',
                     ),
+                    enabled: true,
+                    validator: (password) {
+                      if (password!.isEmpty) {
+                        return 'Campo deve ser preenchido!!!';
+                      }
+                      return null;
+                    },
+                    onSaved: (password) => _userLocal.password = password,
                   ),
                 ),
               ),
@@ -82,16 +99,25 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
                 padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    color: Colors.deepPurple,
-                    borderRadius: BorderRadius.circular(12)),
                 child: Center(
-                  child: Text(
-                    'Entrar',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.purple),
+                        padding: MaterialStateProperty.all(EdgeInsets.symmetric(
+                            horizontal: 185.0, vertical: 20.0))),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        bool ok = await _userServices.signIn(_userLocal);
+                        if (ok) {
+                          if (mounted) {
+                            debugPrint('Entrou no sistema');
+                          }
+                        }
+                      }
+                    },
+                    child: Text('Entrar'),
                   ),
                 ),
               ),
@@ -105,17 +131,16 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'Não está cadastrado?',
                   style: TextStyle(
-                   
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),
-                          ),
-                        );
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SignUpScreen(),
+                      ),
+                    );
                   },
                   child: Text(
                     ' Registrar agora',

@@ -12,6 +12,7 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(title: const Text('Registrar Usuário')),
         body: SizedBox(
           child: Center(
@@ -59,7 +60,6 @@ class SignUpScreen extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                   
                     TextFormField(
                       decoration: const InputDecoration(
                         hintText: 'Senha',
