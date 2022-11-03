@@ -109,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
+                        debugPrint(_userLocal.toString());
                         bool ok = await _userServices.signIn(_userLocal);
                         if (ok) {
                           if (mounted) {
