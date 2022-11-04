@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:din_din_com/models/user/user.dart';
 import 'package:din_din_com/models/user/user_services.dart';
 import 'package:din_din_com/screen/login/sign_up_page.dart';
+import 'package:din_din_com/screen/home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -108,7 +109,11 @@ class _LoginPageState extends State<LoginPage> {
                         bool ok = await _userServices.signIn(_userLocal);
                         if (ok) {
                           if (mounted) {
-                            debugPrint('Logado no sistema');
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              ),
+                            );
                           }
                         }
                       }
