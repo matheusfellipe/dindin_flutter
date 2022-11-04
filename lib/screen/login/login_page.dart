@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 50),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              padding: const EdgeInsets.symmetric(horizontal: 100.0),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
@@ -47,54 +47,48 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Email',
+                  padding: const EdgeInsets.all(10),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Email',
+                          ),
+                          enabled: true,
+                          validator: (email) {
+                            if (email!.isEmpty) {
+                              return 'Campo deve ser preenchido!!!';
+                            }
+                            return null;
+                          },
+                          onSaved: (email) => _userLocal.email = email,
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Senha',
+                          ),
+                          enabled: true,
+                          validator: (password) {
+                            if (password!.isEmpty) {
+                              return 'Campo deve ser preenchido!!!';
+                            }
+                            return null;
+                          },
+                          onSaved: (password) => _userLocal.password = password,
+                        ),
+                      ],
                     ),
-                    enabled: true,
-                    validator: (email) {
-                      if (email!.isEmpty) {
-                        return 'Campo deve ser preenchido!!!';
-                      }
-                      return null;
-                    },
-                    onSaved: (email) => _userLocal.email = email,
                   ),
                 ),
               ),
             ),
             SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Senha',
-                    ),
-                    enabled: true,
-                    validator: (password) {
-                      if (password!.isEmpty) {
-                        return 'Campo deve ser preenchido!!!';
-                      }
-                      return null;
-                    },
-                    onSaved: (password) => _userLocal.password = password,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Container(
@@ -107,13 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                         padding: MaterialStateProperty.all(EdgeInsets.symmetric(
                             horizontal: 185.0, vertical: 20.0))),
                     onPressed: () async {
+                      debugPrint('Entrou no sistema');
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState!.save();
                         debugPrint(_userLocal.toString());
                         bool ok = await _userServices.signIn(_userLocal);
                         if (ok) {
                           if (mounted) {
-                            debugPrint('Entrou no sistema');
+                            debugPrint('Logado no sistema');
                           }
                         }
                       }
