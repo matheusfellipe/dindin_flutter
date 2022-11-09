@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Icecream {
@@ -25,7 +23,7 @@ class Icecream {
     price=doc.get('price') as String;
     unit=doc.get('unit') as String;
     image=doc.get('image') as String;
-    active=doc.get('active'); 
+    active=doc.get('active') as bool; 
 
   }
 
@@ -35,7 +33,7 @@ class Icecream {
       'price':price,
       'unit':unit,
       'image':price,
-      'actitve': active
+      'active': active
     };
   }
 }

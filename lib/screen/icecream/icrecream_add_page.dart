@@ -17,7 +17,6 @@ class IceCreamAddPage extends StatefulWidget {
 
 class _IceCreamAddPageState extends State<IceCreamAddPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final Icecream _icecream = Icecream();
   late final String fileName;
   late File imageFile;
@@ -58,7 +57,6 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 const SizedBox(
                   height: 20,
                 ),
-               
                 TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -97,24 +95,15 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                 TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: 'Ativo?',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  validator: (active) {
-                    if (active!.isEmpty) {
-                      return 'Campo deve ser preenchido!!!';
-                    }
-                    return null;
+                Checkbox(
+                  checkColor: Colors.black,
+                  // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
+                  value: _icecream.active=true,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _icecream.active = value!;
+                    });
                   },
-                  onSaved: (active) => _icecream.active = active as bool?,
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
