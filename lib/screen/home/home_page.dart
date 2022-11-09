@@ -1,3 +1,4 @@
+import 'package:din_din_com/screen/icecream/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,37 +37,21 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return const Scaffold(
-                      body: Center(
-                        child: Text(
-                          'This is the next page',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      ),
-                    );
-                  },
-                ));
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context)=> const IceCreamAddPage(),
+                  ),
+                );
               },
-              child: const Text('Geladinho'),
+              child: const Text('Cremosinho'),
             ),
              const SizedBox(width: 50),
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return const Scaffold(
-                      body: Center(
-                        child: Text(
-                          'This is the next page',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      ),
-                    );
-                  },
-                ));
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context)=> const IceCreamAddPage(),
+                  ),
+                );
               },
               child: const Text('Entregador'),
             ),
