@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:din_din_com/models/user/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:din_din_com/models/user/user.dart';
 
 class UserServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -39,6 +39,7 @@ class UserServices {
           .user;
       userLocal.id = user!.uid;
       this.userLocal = userLocal;
+      debugPrint('logado');
       return Future.value(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -52,5 +53,21 @@ class UserServices {
 
   Future<void> saveData() async {
     await firestoreRef.set(userLocal!.toMap());
+  }
+
+  //método para realizar o logout do usuário
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> getUser() async {
+    if (userLocal != null) {
+      return;
+    }
+    final User? user = _auth.currentUser;
+    final DocumentSnapshot doc = await firestoreRef.get();
+    userLocal = UserLocal.fromDocument(doc);
+    userLocal!.id = user!.uid;
   }
 }
