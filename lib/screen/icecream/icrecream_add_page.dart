@@ -95,10 +95,11 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 const SizedBox(
                   height: 20,
                 ),
+                const Text('Ativo'),
                 Checkbox(
-                  checkColor: Colors.black,
+                  checkColor: Colors.white,
                   // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-                  value: _icecream.active=true,
+                  value: _icecream.active,
                   onChanged: (bool? value) {
                     setState(() {
                       _icecream.active = value!;
