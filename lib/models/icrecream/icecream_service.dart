@@ -20,7 +20,7 @@ Future<bool> add(Icecream icecream, dynamic imageFile, bool plat) async {
   final _uuid = const Uuid().v1();
 
   try {
-    final doc = await firestoreRef.add(icecream.toMap());
+    final doc = await firestoreRef.add(icecream.toMap()); //após receber o objeto do form na view eu passo ele para json e manda para o firebase salvar
     icecream.id = doc.id;
 
     Reference storageRef = storage.ref().child('icecreams').child(icecream.id!);

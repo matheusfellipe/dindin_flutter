@@ -1,6 +1,8 @@
 import 'package:din_din_com/screen/icecream/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
 
+import '../deliveryman/deliveryman_add_page.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -37,7 +39,7 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).push(
                   MaterialPageRoute(builder: (context)=> const IceCreamAddPage(),
                   ),
                 );
@@ -48,8 +50,8 @@ class _HomePageState extends State<HomePage> {
             ElevatedButton(
               // style: style,
               onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context)=> const IceCreamAddPage(),
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context)=> const DeliverymanAddPage(),
                   ),
                 );
               },

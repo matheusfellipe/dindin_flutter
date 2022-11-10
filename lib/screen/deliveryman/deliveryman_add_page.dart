@@ -1,30 +1,23 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:din_din_com/models/icrecream/icecream.dart';
-import 'package:din_din_com/models/icrecream/icecream_service.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as path;
+import 'package:din_din_com/models/entregador/deliveryman.dart';
+import 'package:din_din_com/models/entregador/deliveryman_service.dart';
 
-class IceCreamAddPage extends StatefulWidget {
-  const IceCreamAddPage({Key? key}) : super(key: key);
+class DeliverymanAddPage extends StatefulWidget {
+  const DeliverymanAddPage({Key? key}) : super(key: key);
 
   @override
-  State<IceCreamAddPage> createState() => _IceCreamAddPageState();
+  State<DeliverymanAddPage> createState() => _DeliverymanAddPageState();
 }
 
-class _IceCreamAddPageState extends State<IceCreamAddPage> {
+class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final Icecream _icecream = Icecream();
-  late final String fileName;
-  late File imageFile;
+  final Deliveryman _deliveryman = Deliveryman();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Adicionar Cremosinho"),
+        title: const Text("Adicionar Entregador"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -39,20 +32,20 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 TextFormField(
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    hintText: 'Sabor',
+                    hintText: 'Nome',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  validator: (sabor) {
-                    if (sabor!.isEmpty) {
+                  validator: (name) {
+                    if (name!.isEmpty) {
                       return 'Campo deve ser preenchido!!!';
-                    } else if (sabor.trim().split('').length <= 1) {
+                    } else if (name.trim().split('').length <= 1) {
                       return 'Preencha com seu nome correto';
                     }
                     return null;
                   },
-                  onSaved: (sabor) => _icecream.sabor = sabor,
+                  onSaved: (name) => _deliveryman.name = name,
                 ),
                 const SizedBox(
                   height: 20,
@@ -60,18 +53,18 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 TextFormField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: 'Unidade',
+                    hintText: 'CPF',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  validator: (unit) {
-                    if (unit!.isEmpty) {
+                  validator: (cpf) {
+                    if (cpf!.isEmpty) {
                       return 'Campo deve ser preenchido!!!';
                     }
                     return null;
                   },
-                  onSaved: (unit) => _icecream.unit = unit,
+                  onSaved: (cpf) => _deliveryman.cpf = cpf,
                 ),
                 const SizedBox(
                   height: 20,
@@ -79,38 +72,43 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 TextFormField(
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    hintText: 'Preço do produto',
+                    hintText: 'Telefone',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  validator: (price) {
-                    if (price!.isEmpty) {
+                  validator: (phone) {
+                    if (phone!.isEmpty) {
                       return 'Campo deve ser preenchido!!!';
                     }
                     return null;
                   },
-                  onSaved: (price) => _icecream.price = price,
+                  onSaved: (phone) => _deliveryman.phone = phone,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  children: [
-                    const Text('Ativo'),
-                     Checkbox(
-                  checkColor: Colors.white,
-                  // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-                  value: _icecream.active ?? true,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _icecream.active = value!;
-                    });
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    hintText: 'Rota',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  validator: (route) {
+                    if (route!.isEmpty) {
+                      return 'Campo deve ser preenchido!!!';
+                    } else if (route.trim().split('').length <= 1) {
+                      return 'Preencha com seu nome correto';
+                    }
+                    return null;
                   },
+                  onSaved: (route) => _deliveryman.route = route,
                 ),
-                  ],
+                const SizedBox(
+                  height: 20,
                 ),
-               
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -120,14 +118,14 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       },
                       child: const Text("Cancelar"),
                     ),
-                  
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          IcecreamService _icecreamService = IcecreamService(); //chama a regra de salvar
-                          bool ok = await _icecreamService.add(
-                              _icecream, imageFile, kIsWeb); //passa o objeto para salvar no serviço add
+                          DeliverymanService _deliverymanService =
+                              DeliverymanService(); //chama a regra de salvar
+                          bool ok = await _deliverymanService.add(
+                              _deliveryman); //passa o objeto para salvar no serviço add
                           if (ok && mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -147,10 +145,6 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       },
                       child: const Text("Salvar"),
                     ),
-                    ElevatedButton.icon(
-                        onPressed: () => _upload('camera'),
-                        icon: const Icon(Icons.camera),
-                        label: const Text('camera')),
                   ],
                 )
               ],
@@ -159,27 +153,5 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
         ),
       ),
     );
-  }
-
-  Future<void> _upload(String inputSource) async {
-    final picker = ImagePicker();
-    XFile? pickedImage;
-    try {
-      pickedImage = await picker.pickImage(
-          source: inputSource == 'camera'
-              ? ImageSource.camera
-              : ImageSource.gallery,
-          maxWidth: 1920);
-
-      fileName = path.basename(pickedImage!.path);
-      imageFile = File(pickedImage.path);
-
-      // Refresh the UI
-      setState(() {});
-    } catch (err) {
-      if (kDebugMode) {
-        print(err);
-      }
-    }
   }
 }
