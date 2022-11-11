@@ -40,24 +40,26 @@ class _HomePageState extends State<HomePage> {
               // style: style,
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context)=> const IceCreamAddPage(),
+                  MaterialPageRoute(
+                    builder: (context) => const IceCreamAddPage(),
                   ),
                 );
               },
               child: const Text('Cremosinho'),
             ),
-             const SizedBox(width: 50),
+            const SizedBox(width: 50),
             ElevatedButton(
               // style: style,
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context)=> const DeliverymanAddPage(),
+                  MaterialPageRoute(
+                    builder: (context) => const DeliverymanAddPage(),
                   ),
                 );
               },
               child: const Text('Entregador'),
             ),
-             const SizedBox(width: 50),
+            const SizedBox(width: 50),
             ElevatedButton(
               // style: style,
               onPressed: () {
@@ -83,8 +85,8 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.logout),
             tooltip: 'Logout',
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Logout')));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('Logout')));
             },
           ),
         ],

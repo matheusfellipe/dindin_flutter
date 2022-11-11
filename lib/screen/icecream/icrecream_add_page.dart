@@ -98,19 +98,18 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 Row(
                   children: [
                     const Text('Ativo'),
-                     Checkbox(
-                  checkColor: Colors.white,
-                  // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-                  value: _icecream.active ?? true,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _icecream.active = value!;
-                    });
-                  },
-                ),
+                    Checkbox(
+                      checkColor: Colors.white,
+                      // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
+                      value: _icecream.active ?? true,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _icecream.active = value!;
+                        });
+                      },
+                    ),
                   ],
                 ),
-               
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -120,14 +119,17 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       },
                       child: const Text("Cancelar"),
                     ),
-                  
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          IcecreamService _icecreamService = IcecreamService(); //chama a regra de salvar
+                          IcecreamService _icecreamService =
+                              IcecreamService(); //chama a regra de salvar
                           bool ok = await _icecreamService.add(
-                              _icecream, imageFile, kIsWeb); //passa o objeto para salvar no serviço add
+                              icecream: _icecream,
+                              // imageFile: imageFile,
+                              plat:
+                                  kIsWeb); //passa o objeto para salvar no serviço add
                           if (ok && mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
