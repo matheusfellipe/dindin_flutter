@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
@@ -7,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:din_din_com/models/product/icecream.dart';
 import 'package:din_din_com/models/product/icecream_service.dart';
 // ignore: depend_on_referenced_packages
-import 'package:path/path.dart' as path;
 
 class IceCreamAddPage extends StatefulWidget {
   const IceCreamAddPage({Key? key}) : super(key: key);
@@ -120,22 +121,34 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                   width: MediaQuery.of(context).size.width > 650
                       ? 500
                       : MediaQuery.of(context).size.width * 0.90,
-                  height: MediaQuery.of(context).size.width > 650
+                  height: MediaQuery.of(context).size.height > 650
                       ? 350
-                      : MediaQuery.of(context).size.width * 0.45,
+                      : MediaQuery.of(context).size.height * 0.45,
                   decoration: BoxDecoration(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: _pickedImage == null || webImage.isEmpty
                       ? dottedBorder(color: Colors.blue)
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: kIsWeb
-                              ? Image.memory(webImage)
-                              : Image.file(_pickedImage!),
-                        ),
+                      : Card(
+                        elevation: 1,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: kIsWeb
+                                ? Image.memory(webImage)
+                                : Image.file(_pickedImage!),
+                          ),
+                      ),
                 ),
+                  TextButton(
+                      onPressed: () {
+                      setState(() {
+                        _pickedImage=null;
+                      });
+                      },
+                      child: const Text("Limpar Imagem",style: TextStyle(color: Colors.purple)),
+                    ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -156,7 +169,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                               IcecreamService(); //chama a regra de salvar
                           bool ok = await _icecreamService.add(
                               icecream: _icecream,
-                              // imageFile: imageFile,
+                              imageFile: kIsWeb ? webImage : _pickedImage,
                               plat:
                                   kIsWeb); //passa o objeto para salvar no serviço add
                           if (ok && mounted) {
@@ -178,12 +191,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       },
                       child: const Text("Salvar"),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text("Limpar "),
-                    ),
+                  
                   ],
                 )
               ],

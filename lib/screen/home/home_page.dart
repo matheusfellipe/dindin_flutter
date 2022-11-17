@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Row(
           children: [
-            ElevatedButton(
+            TextButton(
               // style: style,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute<void>(
@@ -33,10 +33,10 @@ class _HomePageState extends State<HomePage> {
                   },
                 ));
               },
-              child: const Text('Venda'),
+              child: const Text('Venda',style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
-            ElevatedButton(
+            TextButton(
               // style: style,
               onPressed: () {
                 Navigator.of(context).push(
@@ -45,10 +45,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              child: const Text('Cremosinho'),
+              child: const Text('Cremosinho',style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
-            ElevatedButton(
+            TextButton(
               // style: style,
               onPressed: () {
                 Navigator.of(context).push(
@@ -57,10 +57,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              child: const Text('Entregador'),
+              child: const Text('Entregador',style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
-            ElevatedButton(
+            TextButton(
               // style: style,
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute<void>(
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ));
               },
-              child: const Text('Clientes'),
+              child: const Text('Clientes',style: TextStyle(color: Colors.white)),
             ),
           ],
         ),

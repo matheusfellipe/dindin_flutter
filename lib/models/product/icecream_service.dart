@@ -6,13 +6,13 @@ import 'package:din_din_com/models/product/icecream.dart';
 
 class IcecreamService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  FirebaseStorage storage = FirebaseStorage.instance;
   late CollectionReference firestoreRef;
+  FirebaseStorage storage = FirebaseStorage.instance;
 
   IcecreamService() {
     firestoreRef = _firestore.collection('icecreams');
   }
-  Future<bool> add({Icecream? icecream, dynamic imageFile, bool? plat}) async {
+  Future<bool> add({Icecream? icecream, dynamic imageFile, required bool plat}) async {
     // ignore: no_leading_underscores_for_local_identifiers
     final _uuid = const Uuid().v1();
 
@@ -25,15 +25,32 @@ class IcecreamService {
           storage.ref().child('icecreams').child(icecream.id!);
       final UploadTask task;
 
-      if (!plat!) {
-        task = storageRef.child(_uuid).putFile(imageFile);
-        storageRef.putFile(imageFile);
+      if (!plat) {
+        task = storageRef.child(_uuid).putFile(
+              imageFile,
+              SettableMetadata(
+                contentType: 'image/jpeg',
+                customMetadata: {
+                  'upload_by': 'Matheus',
+                  'description': '${icecream.sabor}'
+                },
+              ),
+            );
       } else {
-        task = storageRef.child(_uuid).putData(imageFile);
-        storageRef.putData(imageFile);
+        task = storageRef.child(_uuid).putData(
+              imageFile,
+              SettableMetadata(
+                contentType: 'image/jpeg',
+                customMetadata: {
+                  'upload_by': 'Matheus',
+                  'description': '${icecream.sabor}'
+                },
+              ),
+            );
       }
 
-      final String url = await (await task).ref.getDownloadURL();
+      final String url =
+          await (await task.whenComplete(() {})).ref.getDownloadURL();
       DocumentReference docRef = firestoreRef.doc(icecream.id);
       await docRef.update({'image': url});
 
