@@ -10,6 +10,7 @@ void main() async {
         options: const FirebaseOptions(
       apiKey: "AIzaSyBQJKlCrSq7xvF1DLPcCExBpDjkZhBW9eY",
       projectId: "dindin-com",
+      storageBucket: "dindin-com.appspot.com",
       messagingSenderId: "94268004754",
       appId: "1:94268004754:web:6a3bd5e0db3af096aec94b",
     ));

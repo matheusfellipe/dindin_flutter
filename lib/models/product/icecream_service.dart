@@ -12,7 +12,8 @@ class IcecreamService {
   IcecreamService() {
     firestoreRef = _firestore.collection('icecreams');
   }
-  Future<bool> add({Icecream? icecream, dynamic imageFile, required bool plat}) async {
+  Future<bool> add(
+      {Icecream? icecream, dynamic imageFile, required bool plat}) async {
     // ignore: no_leading_underscores_for_local_identifiers
     final _uuid = const Uuid().v1();
 
@@ -53,8 +54,6 @@ class IcecreamService {
           await (await task.whenComplete(() {})).ref.getDownloadURL();
       DocumentReference docRef = firestoreRef.doc(icecream.id);
       await docRef.update({'image': url});
-
-      icecream.image = url;
 
       return Future.value(true);
     } on FirebaseException catch (e) {

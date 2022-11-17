@@ -24,6 +24,8 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
   final Icecream _icecream = Icecream();
   late final String fileName;
   late File imageFile;
+  var mark = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,11 +107,9 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                     Checkbox(
                       checkColor: Colors.white,
                       // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-                      value: _icecream.active ?? true,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _icecream.active = value!;
-                        });
+                      value: mark,
+                      onChanged: (value) {
+                        mark = value ?? mark;
                       },
                     ),
                   ],
@@ -131,24 +131,25 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                   child: _pickedImage == null || webImage.isEmpty
                       ? dottedBorder(color: Colors.blue)
                       : Card(
-                        elevation: 1,
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        child: ClipRRect(
+                          elevation: 1,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: kIsWeb
                                 ? Image.memory(webImage)
                                 : Image.file(_pickedImage!),
                           ),
-                      ),
+                        ),
                 ),
-                  TextButton(
-                      onPressed: () {
-                      setState(() {
-                        _pickedImage=null;
-                      });
-                      },
-                      child: const Text("Limpar Imagem",style: TextStyle(color: Colors.purple)),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _pickedImage = null;
+                    });
+                  },
+                  child: const Text("Limpar Imagem",
+                      style: TextStyle(color: Colors.purple)),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -165,6 +166,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
+                          _icecream.active = mark;
                           IcecreamService _icecreamService =
                               IcecreamService(); //chama a regra de salvar
                           bool ok = await _icecreamService.add(
@@ -191,7 +193,6 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       },
                       child: const Text("Salvar"),
                     ),
-                  
                   ],
                 )
               ],
