@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:din_din_com/models/icrecream/icecream.dart';
-import 'package:din_din_com/models/icrecream/icecream_service.dart';
+import 'package:din_din_com/models/product/icecream.dart';
+import 'package:din_din_com/models/product/icecream_service.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
@@ -17,6 +18,8 @@ class IceCreamAddPage extends StatefulWidget {
 
 class _IceCreamAddPageState extends State<IceCreamAddPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  File? _pickedImage;
+  Uint8List webImage = Uint8List(8);
   final Icecream _icecream = Icecream();
   late final String fileName;
   late File imageFile;
@@ -110,6 +113,32 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width > 650
+                      ? 500
+                      : MediaQuery.of(context).size.width * 0.90,
+                  height: MediaQuery.of(context).size.width > 650
+                      ? 350
+                      : MediaQuery.of(context).size.width * 0.45,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: _pickedImage == null || webImage.isEmpty
+                      ? dottedBorder(color: Colors.blue)
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: kIsWeb
+                              ? Image.memory(webImage)
+                              : Image.file(_pickedImage!),
+                        ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -149,10 +178,12 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       },
                       child: const Text("Salvar"),
                     ),
-                    ElevatedButton.icon(
-                        onPressed: () => _upload('camera'),
-                        icon: const Icon(Icons.camera),
-                        label: const Text('camera')),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text("Limpar "),
+                    ),
                   ],
                 )
               ],
@@ -163,25 +194,80 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
     );
   }
 
-  Future<void> _upload(String inputSource) async {
-    final picker = ImagePicker();
-    XFile? pickedImage;
-    try {
-      pickedImage = await picker.pickImage(
-          source: inputSource == 'camera'
-              ? ImageSource.camera
-              : ImageSource.gallery,
-          maxWidth: 1920);
+  Widget dottedBorder({required Color color}) {
+    return DottedBorder(
+      dashPattern: const [6],
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(10),
+      color: color,
+      child: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.image_outlined,
+                color: color,
+                size: 80,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextButton(
+                  onPressed: () {
+                    _pickImage();
+                  },
+                  child: Text(
+                    "Escolha uma Imagem para o produto",
+                    style: TextStyle(color: color),
+                  ))
+            ]),
+      ),
+    );
+  }
 
-      fileName = path.basename(pickedImage!.path);
-      imageFile = File(pickedImage.path);
-
-      // Refresh the UI
-      setState(() {});
-    } catch (err) {
-      if (kDebugMode) {
-        print(err);
+  Future<void> _pickImage() async {
+    if (!kIsWeb) {
+      ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var imageSelected = File(image.path);
+        setState(() {
+          _pickedImage = imageSelected;
+        });
       }
+    } else if (kIsWeb) {
+      ImagePicker _picker = ImagePicker();
+      XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        var imageSelected = await image.readAsBytes();
+        setState(() {
+          webImage = imageSelected;
+          _pickedImage = File('a');
+        });
+      } else {
+        debugPrint('Nenhuma image foi selecionda');
+      }
+    } else {
+      debugPrint('Algo errado aconteceu!');
     }
+
+    //   try {
+    //     pickedImage = await picker.pickImage(
+    //         source: inputSource == 'camera'
+    //             ? ImageSource.camera
+    //             : ImageSource.gallery,
+    //         maxWidth: 1920);
+
+    //     fileName = path.basename(pickedImage!.path);
+    //     imageFile = File(pickedImage.path);
+
+    //     // Refresh the UI
+    //     setState(() {});
+    //   } catch (err) {
+    //     if (kDebugMode) {
+    //       print(err);
+    //     }
+    //   }
   }
 }

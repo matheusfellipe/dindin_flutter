@@ -1,4 +1,4 @@
-import 'package:din_din_com/screen/icecream/icrecream_add_page.dart';
+import 'package:din_din_com/screen/product/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
 
 import '../deliveryman/deliveryman_add_page.dart';

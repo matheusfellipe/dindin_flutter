@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
-import 'package:din_din_com/models/icrecream/icecream.dart';
+import 'package:din_din_com/models/product/icecream.dart';
 
 class IcecreamService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // FirebaseStorage storage = FirebaseStorage.instance;
+  FirebaseStorage storage = FirebaseStorage.instance;
   late CollectionReference firestoreRef;
 
   IcecreamService() {
@@ -21,23 +21,23 @@ class IcecreamService {
           .toMap()); //após receber o objeto do form na view eu passo ele para json e manda para o firebase salvar
       icecream.id = doc.id;
 
-      // Reference storageRef =
-      //     storage.ref().child('icecreams').child(icecream.id!);
-      // final UploadTask task;
+      Reference storageRef =
+          storage.ref().child('icecreams').child(icecream.id!);
+      final UploadTask task;
 
-      // if (!plat!) {
-      //   task = storageRef.child(_uuid).putFile(imageFile);
-      //   storageRef.putFile(imageFile);
-      // } else {
-      //   task = storageRef.child(_uuid).putData(imageFile);
-      //   storageRef.putData(imageFile);
-      // }
+      if (!plat!) {
+        task = storageRef.child(_uuid).putFile(imageFile);
+        storageRef.putFile(imageFile);
+      } else {
+        task = storageRef.child(_uuid).putData(imageFile);
+        storageRef.putData(imageFile);
+      }
 
-      // final String url = await (await task).ref.getDownloadURL();
-      // DocumentReference docRef = firestoreRef.doc(icecream.id);
-      // await docRef.update({'image': url});
+      final String url = await (await task).ref.getDownloadURL();
+      DocumentReference docRef = firestoreRef.doc(icecream.id);
+      await docRef.update({'image': url});
 
-      // icecream.image = url;
+      icecream.image = url;
 
       return Future.value(true);
     } on FirebaseException catch (e) {
