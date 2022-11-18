@@ -58,7 +58,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                             width: 80,
                                             // child: Image.network(cartProduct.product.images.first),
                                             child: Image.network(
-                                                docSnapshot['image'] ?? "",
+                                                docSnapshot['image'] ?? " ",
                                                 errorBuilder: (BuildContext
                                                         context,
                                                     Object exception,
