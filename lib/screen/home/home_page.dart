@@ -2,6 +2,7 @@ import 'package:din_din_com/screen/product/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
 
 import '../deliveryman/deliveryman_add_page.dart';
+import '../product/icrecream_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ));
               },
-              child: const Text('Venda',style: TextStyle(color: Colors.white)),
+              child: const Text('Venda', style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
             TextButton(
@@ -41,11 +42,12 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const IceCreamAddPage(),
+                    builder: (context) => const IcecreamListPage(),
                   ),
                 );
               },
-              child: const Text('Cremosinho',style: TextStyle(color: Colors.white)),
+              child: const Text('Cremosinho',
+                  style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
             TextButton(
@@ -57,7 +59,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-              child: const Text('Entregador',style: TextStyle(color: Colors.white)),
+              child: const Text('Entregador',
+                  style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
             TextButton(
@@ -76,7 +79,8 @@ class _HomePageState extends State<HomePage> {
                   },
                 ));
               },
-              child: const Text('Clientes',style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Clientes', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),

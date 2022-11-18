@@ -43,6 +43,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.text,
+                  initialValue: _icecream.sabor,
                   decoration: InputDecoration(
                     hintText: 'Sabor',
                     border: OutlineInputBorder(
@@ -64,6 +65,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: _icecream.unit,
                   decoration: InputDecoration(
                     hintText: 'Unidade',
                     border: OutlineInputBorder(
@@ -83,6 +85,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: _icecream.price,
                   decoration: InputDecoration(
                     hintText: 'Preço do produto',
                     border: OutlineInputBorder(

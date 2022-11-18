@@ -69,6 +69,7 @@ class IcecreamService {
   Future<bool> delete(String icecreamId) async {
     try {
       await firestoreRef.doc(icecreamId).delete();
+      await storage.ref().child('icecreams').child(icecreamId).delete();
       return Future.value(true);
     } on FirebaseException catch (e) {
       if (e.code != 'OK') {
