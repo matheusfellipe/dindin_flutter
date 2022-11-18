@@ -24,7 +24,6 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
   final Icecream _icecream = Icecream();
   late final String fileName;
   late File imageFile;
-  var mark = true;
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +106,11 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                     Checkbox(
                       checkColor: Colors.white,
                       // fillColor: MaterialStateProperty.resolveWith(Colors.blue),
-                      value: mark,
+                      value: _icecream.active ?? true,
                       onChanged: (value) {
-                        mark = value ?? mark;
+                        setState(() {
+                          _icecream.active = value;
+                        });
                       },
                     ),
                   ],
@@ -166,7 +167,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          _icecream.active = mark;
+
                           IcecreamService _icecreamService =
                               IcecreamService(); //chama a regra de salvar
                           bool ok = await _icecreamService.add(
