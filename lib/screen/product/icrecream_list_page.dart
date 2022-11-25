@@ -31,7 +31,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: ((context, index) {
                       DocumentSnapshot docSnapshot = snapshot.data!.docs[index];
-                      print(docSnapshot['image']);
+                      print(snapshot.data);
                       return Padding(
                         padding: const EdgeInsets.only(
                           left: 10.0,
@@ -89,7 +89,14 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                     ),
                                     IconButton(
                                       iconSize: 18,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const IceCreamAddPage(),
+                                          ),
+                                        );
+                                      },
                                       icon: const Icon(Icons.edit),
                                     ),
                                     IconButton(
