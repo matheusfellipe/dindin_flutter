@@ -11,7 +11,7 @@ import 'package:din_din_com/models/product/icecream_service.dart';
 // ignore: depend_on_referenced_packages
 
 class IceCreamAddPage extends StatefulWidget {
-  const IceCreamAddPage({Key? key}) : super(key: key);
+  const IceCreamAddPage({Key? key, data}) : super(key: key);
 
   @override
   State<IceCreamAddPage> createState() => _IceCreamAddPageState();
