@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:din_din_com/models/product/icecream.dart';
 import 'package:din_din_com/screen/product/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
 import 'package:din_din_com/models/product/icecream_service.dart';
@@ -30,7 +31,10 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: ((context, index) {
-                      DocumentSnapshot docSnapshot = snapshot.data!.docs[index];
+                      Map<String, dynamic> iceCreamMap =
+                          snapshot.data!.docs[index].data()
+                              as Map<String, dynamic>;
+                      Icecream iceCreamItem = Icecream.fromMap(iceCreamMap);
 
                       return Padding(
                         padding: const EdgeInsets.only(
@@ -58,7 +62,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                             width: 80,
                                             // child: Image.network(cartProduct.product.images.first),
                                             child: Image.network(
-                                                docSnapshot['image'] ?? " ",
+                                                iceCreamItem.image!,
                                                 errorBuilder: (BuildContext
                                                         context,
                                                     Object exception,
@@ -75,12 +79,12 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                                 ),
                                           ),
                                           Text(
-                                            docSnapshot['sabor'],
+                                            iceCreamItem.sabor!,
                                             style:
                                                 const TextStyle(fontSize: 12),
                                           ),
                                           Text(
-                                            docSnapshot['price'],
+                                            iceCreamItem.price!,
                                             style:
                                                 const TextStyle(fontSize: 12),
                                           ),
@@ -93,7 +97,14 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                IceCreamAddPage(),
+                                                IceCreamAddPage(
+                                              id: iceCreamItem.id,
+                                              sabor: iceCreamItem.sabor,
+                                              price: iceCreamItem.price,
+                                              active: iceCreamItem.active,
+                                              unit: iceCreamItem.unit,
+                                              image: iceCreamItem.image,
+                                            ),
                                           ),
                                         );
                                       },
@@ -103,7 +114,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                       iconSize: 18,
                                       onPressed: () async {
                                         bool ok = await _icecreamService
-                                            .delete(docSnapshot.id);
+                                            .delete(iceCreamItem.id!);
                                         if (ok) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(

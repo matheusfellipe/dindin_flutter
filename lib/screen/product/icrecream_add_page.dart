@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:din_din_com/models/product/icecream.dart';
 import 'package:din_din_com/models/product/icecream_service.dart';
@@ -12,9 +13,16 @@ import 'package:din_din_com/models/product/icecream_service.dart';
 
 class IceCreamAddPage extends StatefulWidget {
   IceCreamAddPage(
-      {Key? key, this.sabor, this.unit, this.price, this.image, this.active})
+      {Key? key,
+      this.id,
+      this.sabor,
+      this.unit,
+      this.price,
+      this.image,
+      this.active})
       : super(key: key);
 
+  String? id;
   String? sabor;
   String? unit;
   String? price;
@@ -32,6 +40,30 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
   final Icecream _icecream = Icecream();
   late final String fileName;
   late File imageFile;
+
+  Future<Uint8List> setNewImage() async {
+    Uint8List bytes =
+        (await NetworkAssetBundle(Uri.parse(widget.image!)).load(widget.image!))
+            .buffer
+            .asUint8List();
+
+    return bytes;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.active != null) {
+      _icecream.active = widget.active;
+    }
+
+    if (widget.image != null) {}
+    setNewImage().then((value) => webImage = value);
+
+    if (widget.id != null) {
+      _icecream.id = widget.id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +84,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.text,
-                  initialValue: _icecream.sabor,
+                  initialValue: widget.sabor,
                   decoration: InputDecoration(
                     hintText: 'Sabor',
                     border: OutlineInputBorder(
@@ -74,7 +106,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  initialValue: _icecream.unit,
+                  initialValue: widget.unit,
                   decoration: InputDecoration(
                     hintText: 'Unidade',
                     border: OutlineInputBorder(
@@ -94,7 +126,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  initialValue: _icecream.price,
+                  initialValue: widget.price,
                   decoration: InputDecoration(
                     hintText: 'Preço do produto',
                     border: OutlineInputBorder(
@@ -141,7 +173,8 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                     color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: _pickedImage == null || webImage.isEmpty
+                  child: _pickedImage == null ||
+                          webImage.isEmpty && _icecream.image != null
                       ? dottedBorder(color: Colors.blue)
                       : Card(
                           elevation: 1,
@@ -182,25 +215,28 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
 
                           IcecreamService _icecreamService =
                               IcecreamService(); //chama a regra de salvar
-                          bool ok = await _icecreamService.add(
-                              icecream: _icecream,
-                              imageFile: kIsWeb ? webImage : _pickedImage,
-                              plat:
-                                  kIsWeb); //passa o objeto para salvar no serviço add
-                          if (ok && mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content:
-                                        Text("Dados gravados com sucesso!!!")));
-                            _formKey.currentState!.reset();
-                            Navigator.of(context).pop();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content:
-                                        Text("Problemas ao gravar dados!!!")));
+
+                          if (_icecream.id == null) {
+                            bool ok = await _icecreamService.add(
+                                icecream: _icecream,
+                                imageFile: kIsWeb ? webImage : _pickedImage,
+                                plat:
+                                    kIsWeb); //passa o objeto para salvar no serviço add
+                            if (ok && mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                          "Dados gravados com sucesso!!!")));
+                              _formKey.currentState!.reset();
+                              Navigator.of(context).pop();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "Problemas ao gravar dados!!!")));
+                            }
                           }
                         }
                       },
