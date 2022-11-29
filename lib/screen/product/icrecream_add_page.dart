@@ -11,7 +11,15 @@ import 'package:din_din_com/models/product/icecream_service.dart';
 // ignore: depend_on_referenced_packages
 
 class IceCreamAddPage extends StatefulWidget {
-  const IceCreamAddPage({Key? key, data}) : super(key: key);
+  IceCreamAddPage(
+      {Key? key, this.sabor, this.unit, this.price, this.image, this.active})
+      : super(key: key);
+
+  String? sabor;
+  String? unit;
+  String? price;
+  String? image;
+  bool? active;
 
   @override
   State<IceCreamAddPage> createState() => _IceCreamAddPageState();
@@ -27,6 +35,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.price.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Adicionar Cremosinho"),

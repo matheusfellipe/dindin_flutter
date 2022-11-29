@@ -28,4 +28,13 @@ class Icecream {
       'active': active
     };
   }
+
+  Icecream.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    sabor = map['sabor'];
+    unit = map['unit'];
+    price = map['price'];
+    image = map['image'];
+    active = map['active'];
+  }
 }
