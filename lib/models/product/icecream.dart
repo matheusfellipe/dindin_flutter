@@ -21,6 +21,7 @@ class Icecream {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'sabor': sabor,
       'price': price,
       'unit': unit,

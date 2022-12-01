@@ -35,7 +35,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                           snapshot.data!.docs[index].data()
                               as Map<String, dynamic>;
                       Icecream iceCreamItem = Icecream.fromMap(iceCreamMap);
-
+                      print(iceCreamItem);
                       return Padding(
                         padding: const EdgeInsets.only(
                           left: 10.0,
@@ -113,6 +113,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                     IconButton(
                                       iconSize: 18,
                                       onPressed: () async {
+                                        print(iceCreamItem.id!);
                                         bool ok = await _icecreamService
                                             .delete(iceCreamItem.id!);
                                         if (ok) {

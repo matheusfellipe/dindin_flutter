@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:din_din_com/models/product/icecream.dart';
 import 'package:din_din_com/models/product/icecream_service.dart';
@@ -41,15 +40,6 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
   late final String fileName;
   late File imageFile;
 
-  Future<Uint8List> setNewImage() async {
-    Uint8List bytes =
-        (await NetworkAssetBundle(Uri.parse(widget.image!)).load(widget.image!))
-            .buffer
-            .asUint8List();
-
-    return bytes;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -57,8 +47,9 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
       _icecream.active = widget.active;
     }
 
-    if (widget.image != null) {}
-    setNewImage().then((value) => webImage = value);
+    if (widget.image != null) {
+      _icecream.image = widget.image;
+    }
 
     if (widget.id != null) {
       _icecream.id = widget.id;
@@ -67,7 +58,6 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.price.toString());
     return Scaffold(
       appBar: AppBar(
         title: const Text("Adicionar Cremosinho"),
@@ -212,10 +202,9 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-
+                          print(_icecream);
                           IcecreamService _icecreamService =
                               IcecreamService(); //chama a regra de salvar
-
                           if (_icecream.id == null) {
                             bool ok = await _icecreamService.add(
                                 icecream: _icecream,
@@ -236,6 +225,25 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                                       backgroundColor: Colors.red,
                                       content: Text(
                                           "Problemas ao gravar dados!!!")));
+                            }
+                          } else if (_icecream.id != null) {
+                            bool ok = await _icecreamService.update(
+                                _icecream.id!,
+                                _icecream); //passa o objeto para salvar no serviço add
+                            if (ok && mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                          "Dados atualizados com sucesso!!!")));
+                              _formKey.currentState!.reset();
+                              Navigator.of(context).pop();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "Problemas ao atualizar dados!!!")));
                             }
                           }
                         }
