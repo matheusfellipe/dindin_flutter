@@ -39,6 +39,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
   final Icecream _icecream = Icecream();
   late final String fileName;
   late File imageFile;
+  var imageSel;
 
   @override
   void initState() {
@@ -48,6 +49,9 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
     }
 
     if (widget.image != null) {
+      imageSel = widget.image;
+      _pickedImage = File(imageSel);
+      // webImage = Uint8List(imageSel);
       _icecream.image = widget.image;
     }
 
@@ -202,7 +206,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          print(_icecream);
+                          print('id -> ${_icecream.id}');
                           IcecreamService _icecreamService =
                               IcecreamService(); //chama a regra de salvar
                           if (_icecream.id == null) {
@@ -227,9 +231,13 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
                                           "Problemas ao gravar dados!!!")));
                             }
                           } else if (_icecream.id != null) {
+                            debugPrint('atualizando');
                             bool ok = await _icecreamService.update(
-                                _icecream.id!,
-                                _icecream); //passa o objeto para salvar no serviço add
+                                icecreamId: _icecream.id,
+                                icecreamItem: _icecream,
+                                imageFile: kIsWeb ? webImage : _pickedImage,
+                                plat:
+                                    kIsWeb); //passa o objeto para salvar no serviço add
                             if (ok && mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

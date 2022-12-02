@@ -1,41 +1,53 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: non_constant_identifier_names
 
-// class Sale {
-//   String? id;
-//   String? vlr_total;
-//   String? dt_venda;
-//   String? unit;
-//   String? image;
-//   bool? entrega = true;
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-//   Sale({this.id, this.sabor, this.price, this.image, this.active});
+class Sale {
+  String? id;
+  String? vlr_total;
+  bool? entrega = true;
+  String? dt_venda;
+  String? obs;
+  String? forma_pagamento;
+  bool? pago = false;
 
-//   Sale.fromDocument(DocumentSnapshot doc) {
-//     id = doc.id;
-//     sabor = doc.get('sabor') as String;
-//     price = doc.get('price') as String;
-//     unit = doc.get('unit') as String;
-//     image = doc.get('image') as String;
-//     active = doc.get('active') as bool;
-//   }
+  Sale(
+      {this.id,
+      this.vlr_total,
+      this.entrega,
+      this.dt_venda,
+      this.forma_pagamento,
+      this.pago});
 
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'id': id,
-//       'sabor': sabor,
-//       'price': price,
-//       'unit': unit,
-//       'image': price,
-//       'active': active
-//     };
-//   }
+  Sale.fromDocument(DocumentSnapshot doc) {
+    id = doc.id;
+    vlr_total = doc.get('vlr_total') as String;
+    entrega = doc.get('entrega') as bool;
+    dt_venda = doc.get('unit') as String;
+    obs = doc.get('obs') as String;
+    forma_pagamento = doc.get('forma_pagamento') as String;
+    pago = doc.get('pago') as bool;
+  }
 
-//   Sale.fromMap(Map<String, dynamic> map) {
-//     id = map['id'];
-//     sabor = map['sabor'];
-//     unit = map['unit'];
-//     price = map['price'];
-//     image = map['image'];
-//     active = map['active'];
-//   }
-// }
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'vlr_total': vlr_total,
+      'entrega': entrega,
+      'dt_venda': dt_venda,
+      'obs': obs,
+      'forma_pagamento': forma_pagamento,
+      'pago': pago
+    };
+  }
+
+  Sale.fromMap(Map<String, dynamic> map) {
+    id = map['id'];
+    vlr_total = map['vlr_total'];
+    entrega = map['entrega'];
+    dt_venda = map['dt_venda'];
+    obs = map['obs'];
+    forma_pagamento = map['forma_pagamento'];
+    pago = map['pago'];
+  }
+}

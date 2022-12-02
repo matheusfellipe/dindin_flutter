@@ -31,11 +31,14 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: ((context, index) {
-                      Map<String, dynamic> iceCreamMap =
-                          snapshot.data!.docs[index].data()
-                              as Map<String, dynamic>;
-                      Icecream iceCreamItem = Icecream.fromMap(iceCreamMap);
-                      print(iceCreamItem);
+                      DocumentSnapshot docSnapshot = snapshot.data!.docs[index];
+                      Icecream icecream = Icecream(
+                          id: docSnapshot.id,
+                          sabor: docSnapshot['sabor'],
+                          unit: docSnapshot['unit'],
+                          image: docSnapshot['image'],
+                          price: docSnapshot['price'],
+                          active: docSnapshot['active']);
                       return Padding(
                         padding: const EdgeInsets.only(
                           left: 10.0,
@@ -62,7 +65,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                             width: 80,
                                             // child: Image.network(cartProduct.product.images.first),
                                             child: Image.network(
-                                                iceCreamItem.image!,
+                                                docSnapshot['image'] ?? '',
                                                 errorBuilder: (BuildContext
                                                         context,
                                                     Object exception,
@@ -79,12 +82,12 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                                 ),
                                           ),
                                           Text(
-                                            iceCreamItem.sabor!,
+                                            docSnapshot['sabor'],
                                             style:
                                                 const TextStyle(fontSize: 12),
                                           ),
                                           Text(
-                                            iceCreamItem.price!,
+                                            docSnapshot['price'],
                                             style:
                                                 const TextStyle(fontSize: 12),
                                           ),
@@ -98,12 +101,12 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 IceCreamAddPage(
-                                              id: iceCreamItem.id,
-                                              sabor: iceCreamItem.sabor,
-                                              price: iceCreamItem.price,
-                                              active: iceCreamItem.active,
-                                              unit: iceCreamItem.unit,
-                                              image: iceCreamItem.image,
+                                              id: icecream.id,
+                                              sabor: icecream.sabor,
+                                              price: icecream.price,
+                                              active: icecream.active,
+                                              unit: icecream.unit,
+                                              image: icecream.image,
                                             ),
                                           ),
                                         );
@@ -113,9 +116,9 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
                                     IconButton(
                                       iconSize: 18,
                                       onPressed: () async {
-                                        print(iceCreamItem.id!);
+                                        print(icecream.id!);
                                         bool ok = await _icecreamService
-                                            .delete(iceCreamItem.id!);
+                                            .delete(icecream.id!);
                                         if (ok) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(

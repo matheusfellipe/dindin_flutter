@@ -8,7 +8,8 @@ class Icecream {
   String? image;
   bool? active = true;
 
-  Icecream({this.id, this.sabor, this.price, this.image, this.active});
+  Icecream(
+      {this.id, this.sabor, this.price, this.unit, this.image, this.active});
 
   Icecream.fromDocument(DocumentSnapshot doc) {
     id = doc.id;
@@ -21,11 +22,10 @@ class Icecream {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      // 'id': id,
       'sabor': sabor,
       'price': price,
       'unit': unit,
-      'image': price,
       'active': active
     };
   }

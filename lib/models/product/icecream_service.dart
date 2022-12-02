@@ -17,10 +17,8 @@ class IcecreamService {
     // ignore: no_leading_underscores_for_local_identifiers
     final _uuid = const Uuid().v1();
     try {
-      final doc = await firestoreRef.add(icecream!.toMap()).then((value) {
-        icecream.id = value.id;
-        firestoreRef.doc(icecream.id).set(icecream.toMap());
-      }); //após receber o objeto do form na view eu passo ele para json e manda para o firebase salvar
+      final doc = await firestoreRef.add(icecream!.toMap());
+      //passo ele para json e manda para o firebase salvar
       icecream.id = doc.id;
 
       Reference storageRef =
@@ -55,6 +53,7 @@ class IcecreamService {
           await (await task.whenComplete(() {})).ref.getDownloadURL();
       DocumentReference docRef = firestoreRef.doc(icecream.id);
       await docRef.update({'image': url});
+      debugPrint('Gravando os  dados');
 
       return Future.value(true);
     } on FirebaseException catch (e) {
@@ -67,13 +66,49 @@ class IcecreamService {
     }
   }
 
-  Future<bool> update(String icecreamId, Icecream icecreamItem) async {
+  Future<bool> update(
+      {String? icecreamId,
+      Icecream? icecreamItem,
+      dynamic imageFile,
+      bool? plat}) async {
     try {
-      await firestoreRef.doc(icecreamItem.id).set(icecreamItem.toMap());
+      await firestoreRef.doc(icecreamItem?.id).set(icecreamItem?.toMap());
+
+      Reference storageRef =
+          storage.ref().child('icecreams').child(icecreamId!);
+      final UploadTask task;
+
+      if (!plat!) {
+        task = storageRef.child(icecreamId).putFile(
+              imageFile,
+              SettableMetadata(
+                contentType: 'image/jpeg',
+                customMetadata: {
+                  'update_by': 'Matheus',
+                },
+              ),
+            );
+      } else {
+        task = storageRef.child(icecreamId).putData(
+              imageFile,
+              SettableMetadata(
+                contentType: 'image/jpeg',
+                customMetadata: {
+                  'update_by': 'Matheus',
+                },
+              ),
+            );
+      }
+
+      final String url =
+          await (await task.whenComplete(() {})).ref.getDownloadURL();
+      DocumentReference docRef = firestoreRef.doc(icecreamId);
+      await docRef.update({'image': url});
+
       return Future.value(true);
     } on FirebaseException catch (e) {
       if (e.code != 'ok') {
-        debugPrint('Problemas ao deletar a transação');
+        debugPrint('Problemas ao atualizar dados');
       } else if (e.code == 'ABORTED') {
         debugPrint('Edição abortada');
       }
