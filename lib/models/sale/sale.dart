@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Sale {
   String? id;
+  String? descricao;
   String? vlr_total;
   bool? entrega = true;
   String? dt_venda;
@@ -13,6 +14,7 @@ class Sale {
 
   Sale(
       {this.id,
+      this.descricao,
       this.vlr_total,
       this.entrega,
       this.dt_venda,
@@ -21,6 +23,7 @@ class Sale {
 
   Sale.fromDocument(DocumentSnapshot doc) {
     id = doc.id;
+    descricao = doc.get('descricao') as String;
     vlr_total = doc.get('vlr_total') as String;
     entrega = doc.get('entrega') as bool;
     dt_venda = doc.get('unit') as String;
@@ -31,7 +34,7 @@ class Sale {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'descricao': descricao,
       'vlr_total': vlr_total,
       'entrega': entrega,
       'dt_venda': dt_venda,
@@ -43,6 +46,7 @@ class Sale {
 
   Sale.fromMap(Map<String, dynamic> map) {
     id = map['id'];
+    descricao = map['descrica'];
     vlr_total = map['vlr_total'];
     entrega = map['entrega'];
     dt_venda = map['dt_venda'];

@@ -65,6 +65,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Adicionar Cremosinho"),
+        backgroundColor: Colors.purple,
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -37,6 +37,7 @@ class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Adicionar Entregador"),
+        backgroundColor: Colors.purple,
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -18,6 +18,10 @@ class _DeliverymanListPageState extends State<DeliverymanListPage> {
   Widget build(BuildContext context) {
     DeliverymanService _deliverymanService = DeliverymanService();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Lista de Entregador"),
+        backgroundColor: Colors.purple,
+      ),
       body: Column(
         children: [
           const SizedBox(
@@ -68,6 +72,11 @@ class _DeliverymanListPageState extends State<DeliverymanListPage> {
                                           ),
                                           Text(
                                             docSnapshot['cpf'],
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                          Text(
+                                            docSnapshot['route'],
                                             style:
                                                 const TextStyle(fontSize: 12),
                                           ),

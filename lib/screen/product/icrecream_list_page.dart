@@ -16,6 +16,10 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
   Widget build(BuildContext context) {
     IcecreamService _icecreamService = IcecreamService();
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Lista de Produto"),
+        backgroundColor: Colors.purple,
+      ),
       body: Column(
         children: [
           const SizedBox(
