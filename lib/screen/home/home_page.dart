@@ -1,6 +1,5 @@
-import 'package:din_din_com/screen/product/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:din_din_com/screen/sale/sale_list_page.dart';
 import '../deliveryman/deliveryman_list_page.dart';
 import '../product/icrecream_list_page.dart';
 
@@ -22,18 +21,11 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               // style: style,
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return const Scaffold(
-                      body: Center(
-                        child: Text(
-                          'This is the next page',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      ),
-                    );
-                  },
-                ));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (context) => const SaleListPage(),
+                    ));
               },
               child: const Text('Venda', style: TextStyle(color: Colors.white)),
             ),

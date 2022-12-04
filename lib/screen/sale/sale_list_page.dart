@@ -3,14 +3,14 @@ import 'package:din_din_com/models/sale/sale.dart';
 import 'package:flutter/material.dart';
 import 'package:din_din_com/models/sale/sale_service.dart';
 
-class SalePage extends StatefulWidget {
-  const SalePage({super.key});
+class SaleListPage extends StatefulWidget {
+  const SaleListPage({super.key});
 
   @override
-  State<SalePage> createState() => _SalePageState();
+  State<SaleListPage> createState() => _SaleListPageState();
 }
 
-class _SalePageState extends State<SalePage> {
+class _SaleListPageState extends State<SaleListPage> {
   @override
   Widget build(BuildContext context) {
     SaleService _saleService = SaleService();
