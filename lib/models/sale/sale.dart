@@ -1,11 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:din_din_com/models/product/icecream.dart';
 
 class Sale {
   String? id;
   String? descricao;
   String? vlr_total;
+  List<Icecream> itens = [];
   bool? entrega = true;
   String? dt_venda;
   String? obs;
