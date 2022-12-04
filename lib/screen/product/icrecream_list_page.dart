@@ -157,6 +157,7 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.purple,
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -164,7 +165,9 @@ class _IcecreamListPageState extends State<IcecreamListPage> {
             ),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+        ),
       ),
     );
   }
