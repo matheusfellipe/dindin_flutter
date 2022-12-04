@@ -51,7 +51,7 @@ class _IceCreamAddPageState extends State<IceCreamAddPage> {
     if (widget.image != null) {
       imageSel = widget.image;
       _pickedImage = File(imageSel);
-      // webImage = Uint8List(imageSel);
+      webImage = Uint8List(imageSel);
       _icecream.image = widget.image;
     }
 

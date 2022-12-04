@@ -1,7 +1,7 @@
 import 'package:din_din_com/screen/product/icrecream_add_page.dart';
 import 'package:flutter/material.dart';
 
-import '../deliveryman/deliveryman_add_page.dart';
+import '../deliveryman/deliveryman_list_page.dart';
 import '../product/icrecream_list_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const DeliverymanAddPage(),
+                    builder: (context) => const DeliverymanListPage(),
                   ),
                 );
               },
@@ -63,25 +63,6 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(width: 50),
-            TextButton(
-              // style: style,
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute<void>(
-                  builder: (BuildContext context) {
-                    return const Scaffold(
-                      body: Center(
-                        child: Text(
-                          'This is the next page',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                      ),
-                    );
-                  },
-                ));
-              },
-              child:
-                  const Text('Clientes', style: TextStyle(color: Colors.white)),
-            ),
           ],
         ),
         actions: <Widget>[

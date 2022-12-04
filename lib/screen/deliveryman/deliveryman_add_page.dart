@@ -5,7 +5,15 @@ import 'package:din_din_com/models/entregador/deliveryman.dart';
 import 'package:din_din_com/models/entregador/deliveryman_service.dart';
 
 class DeliverymanAddPage extends StatefulWidget {
-  const DeliverymanAddPage({Key? key}) : super(key: key);
+  DeliverymanAddPage(
+      {Key? key, this.id, this.name, this.cpf, this.phone, this.route})
+      : super(key: key);
+
+  String? id;
+  String? name;
+  String? cpf;
+  String? phone;
+  String? route;
 
   @override
   State<DeliverymanAddPage> createState() => _DeliverymanAddPageState();
@@ -14,6 +22,15 @@ class DeliverymanAddPage extends StatefulWidget {
 class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final Deliveryman _deliveryman = Deliveryman();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.id != null) {
+      _deliveryman.id = widget.id;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +50,7 @@ class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.text,
+                  initialValue: widget.name,
                   decoration: InputDecoration(
                     hintText: 'Nome',
                     border: OutlineInputBorder(
@@ -54,6 +72,7 @@ class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: widget.cpf,
                   decoration: InputDecoration(
                     hintText: 'CPF',
                     border: OutlineInputBorder(
@@ -73,6 +92,7 @@ class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: widget.phone,
                   decoration: InputDecoration(
                     hintText: 'Telefone',
                     border: OutlineInputBorder(
@@ -92,6 +112,7 @@ class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.text,
+                  initialValue: widget.route,
                   decoration: InputDecoration(
                     hintText: 'Rota',
                     border: OutlineInputBorder(
@@ -126,22 +147,44 @@ class _DeliverymanAddPageState extends State<DeliverymanAddPage> {
                           _formKey.currentState!.save();
                           DeliverymanService _deliverymanService =
                               DeliverymanService(); //chama a regra de salvar
-                          bool ok = await _deliverymanService.add(
-                              _deliveryman); //passa o objeto para salvar no serviço add
-                          if (ok && mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.green,
-                                    content:
-                                        Text("Dados gravados com sucesso!!!")));
-                            _formKey.currentState!.reset();
-                            Navigator.of(context).pop();
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content:
-                                        Text("Problemas ao gravar dados!!!")));
+                          if (_deliveryman.id == null) {
+                            bool ok = await _deliverymanService.add(
+                                _deliveryman); //passa o objeto para salvar no serviço add
+                            if (ok && mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                          "Dados gravados com sucesso!!!")));
+                              _formKey.currentState!.reset();
+                              Navigator.of(context).pop();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "Problemas ao gravar dados!!!")));
+                            }
+                          } else if (_deliveryman.id != null) {
+                            bool ok = await _deliverymanService.update(
+                              deliverymanId: _deliveryman.id,
+                              deliverymanItem: _deliveryman,
+                            ); //passa o objeto para salvar no serviço add
+                            if (ok && mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.green,
+                                      content: Text(
+                                          "Dados atualizados com sucesso!!!")));
+                              _formKey.currentState!.reset();
+                              Navigator.of(context).pop();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                          "Problemas ao atualizar dados!!!")));
+                            }
                           }
                         }
                       },
